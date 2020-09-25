@@ -6,28 +6,29 @@ public class Klists{
 
 	public double [] mergeKLists(double [][] outerArray){
 		int totalSize=0;
-		for(int i=0;i<outerArray.length;i++){
+		for(int i=0;i<outerArray.length;i++){//sums up all the lengths of each list of numbers in outerArray
 			totalSize=totalSize+outerArray[i].length;
 		}
 
 		double [] outputArray=new double[totalSize];
 
-		if(outerArray.length>1){
-			double [] left=new double[outerArray[0].length];
+		if(outerArray.length>1){//only runs if there are more than 1 value to be sorted
+			double [] left=new double[outerArray[0].length];//sets left to be the first array in outerArray
 			copyArray(outerArray[0], left);
-			double [] right=new double[outerArray[1].length];
+			double [] right=new double[outerArray[1].length];//sets right to the second array in outerArray
 			copyArray(outerArray[1],right);
 			int index=1;
-			double [] temp;
+			double [] temp;//we need a temp array to hold intermediate values when we merge
 			while(left.length+right.length<totalSize){
-				temp=new double[left.length+right.length];
-				copyArray(merge(left, right),temp);
-				left=new double[temp.length];
-				copyArray(temp,left);
-				right=new double[outerArray[index+1].length];
+				temp=new double[left.length+right.length];//temp will be the merged array
+				copyArray(merge(left, right),temp);//merge left and right into temp
+				left=new double[temp.length];//make a new left array 
+				copyArray(temp,left);// copy temp into left
+				right=new double[outerArray[index+1].length];//the new right array is the next array in outerArray
 				copyArray(outerArray[index+1],right);
+
 			}
-			copyArray(merge(left,right),outputArray);
+			copyArray(merge(left,right),outputArray);//merge last two arrays
 			return outputArray;
 		}
 		else{
@@ -36,7 +37,7 @@ public class Klists{
 
 	}
 
-	public void printArray(double [] arr){
+	public void printArray(double [] arr){//prints array 
         int i;
         System.out.println();
 		for(i =0;i<arr.length-1;i++){
@@ -95,22 +96,19 @@ public class Klists{
 		System.out.println("Enter amount of arrays you want to merge: ");
 		int amt = scanner.nextInt();
          
-        System.out.println("Enter length of Arrays: ");
-        int arrlen=scanner.nextInt();
         
-		double [][] arr = new double [amt][arrlen];
+		double [][] arr = new double [amt][];
 		int i = 0; 
 		while(i < amt){
+			System.out.println("Enter length of Sub Array: ");
+			int arrlen=scanner.nextInt();
+			arr[i]=new double[arrlen];
 			System.out.println("Enter values for Array " + i);
-			for(int c = 0; c < arrlen; c++){
+			for(int c = 0; c < arr[i].length; c++){
 				arr[i][c]=scanner.nextDouble();
 			}
 			i++;
 		}
-		/*System.out.println("How many arrays would you like to merge: ");
-		int size=scanner.next();
-
-		double [][] arr=new double [size][];*/
 
 		double [] output=k.mergeKLists(arr);
 		k.printArray(output);
